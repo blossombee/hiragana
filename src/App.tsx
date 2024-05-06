@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { hiragana } from '../hiragana';
 import {motion} from 'framer-motion'
+//import { FiSun } from "react-icons/fi";
+//import { IoMoonOutline } from "react-icons/io5";
 
 const App: React.FC = () => {
 
@@ -137,6 +139,8 @@ const App: React.FC = () => {
 
   return (
     <>
+    <div className='bg-stone-200 h-screen'>
+
 
     {/*Timer*/}
     <div className='flex justify-between items-center'>
@@ -145,6 +149,8 @@ const App: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, y:5 }}
           transition={{ duration: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
       className='px-5 py-5 font-bold text-xl'>
         {score} / {endNumber}
       </motion.div>
@@ -154,6 +160,8 @@ const App: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, y:5 }}
                 transition={{ duration: 1 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
         className='text-sm font-bold px-5 py-5'>
           round: {currentRound} / {endNumber}
         </motion.div>
@@ -176,6 +184,8 @@ const App: React.FC = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, y:5 }}
             transition={{ duration: 1 }}
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
         className='flex justify-center items-center w-96 h-48 font-bold text-5xl'>
           <p>{values.hiragana}</p>
         </motion.div>
@@ -190,55 +200,138 @@ const App: React.FC = () => {
         </div>
       </div>
 
+
+    </div>
     </>
   );
 };
 
+// GITHUB AND NIGHT MODE
+
+
+// BUTTONS
 let Buttons1 = ({ values, randomRoumajis, check }: { values: any, randomRoumajis: any, check: any }) => {
-  let buttonStyle = `rounded border w-full text-xl w-full py-2 hover:bg-stone-100 mb-2 text-xs`;
+  let buttonStyle = `rounded border border-stone-700 w-full text-xl w-full py-2 mb-2 text-xs`;
   return (
     <motion.div 
     key={values}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, y:5 }}
     transition={{ duration: 1 }}
+
     className='w-full mb-2'>
-      <button onClick={() => { check(values.roumaji) }} className={buttonStyle}>{values.roumaji}</button>
-      <button onClick={() => { check(randomRoumajis[0]) }} className={buttonStyle}>{randomRoumajis[0]}</button>
-      <button onClick={() => { check(randomRoumajis[1]) }} className={buttonStyle}>{randomRoumajis[1]}</button>
-      <button onClick={() => { check(randomRoumajis[2]) }} className={buttonStyle}>{randomRoumajis[2]}</button>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      onClick={() => { check(values.roumaji) }} className={buttonStyle}>{values.roumaji}</motion.button>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      onClick={() => { check(randomRoumajis[0]) }} className={buttonStyle}>{randomRoumajis[0]}</motion.button>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+       onClick={() => { check(randomRoumajis[1]) }} className={buttonStyle}>{randomRoumajis[1]}</motion.button>
+      <motion.button
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+      onClick={() => { check(randomRoumajis[2]) }} className={buttonStyle}>{randomRoumajis[2]}</motion.button>
     </motion.div>
   );
 };
 let Buttons2 =  ({values, randomRoumajis, check}:{values: any, randomRoumajis: any, check:any}) => {
-  let buttonStyle = `rounded border w-full text-xl w-full py-2 hover:bg-stone-100 mb-2 text-xs`;
+  let buttonStyle = `rounded border border-stone-700 w-full text-xl w-full py-2 mb-2 text-xs`;
   return(
     <motion.div
     key={values}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, y:5 }}
     transition={{ duration: 1 }}
+
     className='w-full'>
-      <button onClick={()=>{check(randomRoumajis[0])}} className={buttonStyle}>{randomRoumajis[0]}</button>
-      <button onClick={()=>{check(values.roumaji)}} className={buttonStyle}>{values.roumaji}</button>
-      <button onClick={()=>{check(randomRoumajis[2])}} className={buttonStyle}>{randomRoumajis[2]}</button>
-      <button onClick={()=>{check(randomRoumajis[1])}} className={buttonStyle}>{randomRoumajis[1]}</button>
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  onClick={() => { check(randomRoumajis[0]) }}
+  className={buttonStyle}
+>
+  {randomRoumajis[0]}
+</motion.button>
+
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  onClick={() => { check(values.roumaji) }}
+  className={buttonStyle}
+>
+  {values.roumaji}
+</motion.button>
+
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  onClick={() => { check(randomRoumajis[2]) }}
+  className={buttonStyle}
+>
+  {randomRoumajis[2]}
+</motion.button>
+
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  onClick={() => { check(randomRoumajis[1]) }}
+  className={buttonStyle}
+>
+  {randomRoumajis[1]}
+</motion.button>
     </motion.div>
   )
 }
 let Buttons3 =  ({values, randomRoumajis, check}:{values: any, randomRoumajis: any, check:any}) => {
-  let buttonStyle = `rounded border w-full text-xl w-full py-2 hover:bg-stone-100 mb-2 text-xs`;
+  let buttonStyle = `rounded border border-stone-700 w-full text-xl w-full py-2 mb-2 text-xs`;
   return(
     <motion.div
     key={values}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, y:5 }}
     transition={{ duration: 1 }}
+
     className='w-full'>
-      <button onClick={()=>{check(randomRoumajis[2])}} className={buttonStyle}>{randomRoumajis[2]}</button>
-      <button onClick={()=>{check(randomRoumajis[1])}} className={buttonStyle}>{randomRoumajis[1]}</button>
-      <button onClick={()=>{check(values.roumaji)}} className={buttonStyle}>{values.roumaji}</button>
-      <button onClick={()=>{check(randomRoumajis[0])}} className={buttonStyle}>{randomRoumajis[0]}</button>
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  onClick={() => { check(randomRoumajis[2]) }}
+  className={buttonStyle}
+>
+  {randomRoumajis[2]}
+</motion.button>
+
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  onClick={() => { check(randomRoumajis[1]) }}
+  className={buttonStyle}
+>
+  {randomRoumajis[1]}
+</motion.button>
+
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  onClick={() => { check(values.roumaji) }}
+  className={buttonStyle}
+>
+  {values.roumaji}
+</motion.button>
+
+<motion.button
+  whileHover={{ scale: 1.1 }}
+  whileTap={{ scale: 0.9 }}
+  onClick={() => { check(randomRoumajis[0]) }}
+  className={buttonStyle}
+>
+  {randomRoumajis[0]}
+</motion.button>
     </motion.div>
   )
 }

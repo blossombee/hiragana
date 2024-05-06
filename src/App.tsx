@@ -13,12 +13,12 @@ const App: React.FC = () => {
   const [endNumber, setEndNumber] = useState(20);
   const [currentRound, setCurrentRound] = useState(0);
   
-  const [gameStarted, setGameStarted] = useState(false);
-  const [gamePaused, setGamePaused] = useState(false);
+  //const [gameStarted, setGameStarted] = useState(false);
+  //const [gamePaused, setGamePaused] = useState(false);
 
-  const [dark, setDark] = useState(false);
+  //const [dark, setDark] = useState(false);
 
-
+/*
   useEffect(() => {
     if (!gamePaused) {
       // Game logic here
@@ -30,6 +30,8 @@ const App: React.FC = () => {
       // Game logic here
     }
   }, [gameStarted]);
+*/
+
 
   useEffect(() => {
     if (timer === 0) {
@@ -94,11 +96,13 @@ const App: React.FC = () => {
         alert('Congratulations');
         setScore(0);
         setCurrentRound(0);
+        setEndNumber(0);
       } else {
         alert('Game Over');
       }
       setScore(0);
       setCurrentRound(0);
+      setEndNumber(0);
     }
   }, [currentRound, score]);
 
@@ -141,7 +145,7 @@ const App: React.FC = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1, y:5 }}
           transition={{ duration: 1 }}
-      className='text-xl px-5 py-5 font-bold text-5xl'>
+      className='px-5 py-5 font-bold text-xl'>
         {score} / {endNumber}
       </motion.div>
       <div>
@@ -159,7 +163,7 @@ const App: React.FC = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y:5 }}
         transition={{ duration: 1 }}
-        className='flex justify-center items-center text-xl px-5 py-5  font-bold text-5xl'>
+        className='flex justify-center items-center text-xl px-5 py-5  font-bold '>
         <p>{timer}</p>
       </motion.div>
     </div>

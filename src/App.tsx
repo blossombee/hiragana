@@ -16,8 +16,10 @@ const App: React.FC = () => {
   const [timer, setTimer] = useState(10);
   const [correct, setCorrect] = useState(false);
   const [score, setScore] = useState(0);
-  const [endNumber, setEndNumber] = useState(20);
   const [currentRound, setCurrentRound] = useState(0);
+  const [win, setWin] = useState(false);
+
+  const endNumber = 20;
 
   const [dark] = useAtom(darkAtom)
   const [playLottie, setPlayLottie] = useState(false);
@@ -105,51 +107,62 @@ const App: React.FC = () => {
     console.log(randomIndex)
   }, [correct]);
 
-
-  // CHECK ANSWERS
+  // CHECK WINNER
   useEffect(() => {
-    if (currentRound === endNumber) {
-      if (score === endNumber) {
-        alert('Congratulations');
-        setScore(0);
-        setCurrentRound(0);
-        setEndNumber(0);
-      } else {
-        alert('Game Over');
-      }
+    if (currentRound === endNumber && win === false) {
+      alert('Game Over');
       setScore(0);
       setCurrentRound(0);
-      setEndNumber(0);
+    } else if (score === endNumber && win === true) {
+      alert('Congratulations');
+      setScore(0);
+      setCurrentRound(0);
+      setWin(false); // Reset win condition
+    } else if (win === true) {
+      setCurrentRound(0); // Reset current round if win condition is met
+      setWin(false); // Reset win condition
     }
-  }, [currentRound, score]);
+  }, [currentRound, score, endNumber, win]);
 
   //CHECK ANSWER 
   let checkIfCorrect = (roumaji: string) => {
     if (roumaji === values.roumaji) {
-      //alert('correct');
+      // If the answer is correct
       setCorrect(true);
       setScore((prevScore) => prevScore + 1);
       setTimer(10);
       const newIndex = Math.floor(Math.random() * 3);
       setRandomIndex(newIndex);
-      setCurrentRound(currentRound + 1)
+      
+      // Increment current round and check for win condition
+      setCurrentRound((prevRound) => {
+        const updatedRound = prevRound + 1;
+        if (updatedRound === endNumber) {
+          setWin(true);
+          return 0; // Reset current round
+        }
+        return updatedRound;
+      });
   
+      // Set new random hiragana symbol
       const newIndexHiragana = Math.floor(Math.random() * hiragana.length);
       const hiraganaSymbol = hiragana[newIndexHiragana].kana;
       setValues({ hiragana: hiraganaSymbol, roumaji: hiragana[newIndexHiragana].roumaji });
     } else {
-      //alert('wrong');
+      // If the answer is wrong
       setCorrect(false);
       setTimer(10);
   
       const newIndex = Math.floor(Math.random() * 3);
       setRandomIndex(newIndex);
   
+      // Increment current round
+      setCurrentRound((prevRound) => prevRound + 1);
+  
+      // Set new random hiragana symbol
       const newIndexHiragana = Math.floor(Math.random() * hiragana.length);
       const hiraganaSymbol = hiragana[newIndexHiragana].kana;
       setValues({ hiragana: hiraganaSymbol, roumaji: hiragana[newIndexHiragana].roumaji });
-      setRandomIndex(newIndex)
-      setCurrentRound(currentRound + 1)
     }
   }
 
@@ -172,7 +185,7 @@ const App: React.FC = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1}}
                     transition={{ duration: 0.5 }}
-    className={`${dark ? 'bg-[#1f1f1f]' : 'bg-stone-200'} ${dark ? 'text-stone-200' : 'text-stone-900'} h-screen`}>
+    className={`${dark ? 'bg-[#1f1f1f]' : 'bg-stone-200'} ${dark ? 'text-stone-200' : 'text-stone-900'} h-screen scroll-auto`}>
 
 
     {/*Nav*/}

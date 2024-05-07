@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { hiragana } from '../hiragana';
 import {motion} from 'framer-motion'
-//import { FiSun } from "react-icons/fi";
-//import { IoMoonOutline } from "react-icons/io5";
+import { Nav } from './components/Nav';
+import { useAtom } from 'jotai'
+import { darkAtom } from '../store.js'
+import { Player } from '@lottiefiles/react-lottie-player';
+import './index.css';
+
 
 const App: React.FC = () => {
 
@@ -14,12 +18,21 @@ const App: React.FC = () => {
   const [score, setScore] = useState(0);
   const [endNumber, setEndNumber] = useState(20);
   const [currentRound, setCurrentRound] = useState(0);
+
+  const [dark] = useAtom(darkAtom)
+  const [playLottie, setPlayLottie] = useState(false);
   
   //const [gameStarted, setGameStarted] = useState(false);
   //const [gamePaused, setGamePaused] = useState(false);
 
-  //const [dark, setDark] = useState(false);
 
+  useEffect(() => {
+    setPlayLottie(true)
+    const timeout = setTimeout(() => {
+      setPlayLottie(false);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [values.hiragana]);
 /*
   useEffect(() => {
     if (!gamePaused) {
@@ -137,13 +150,36 @@ const App: React.FC = () => {
     }
   }
 
+  // MAIN APP JSX
+
   return (
     <>
-    <div className='bg-stone-200 h-screen'>
+
+{playLottie && (
+        <Player
+          src='https://lottie.host/84da2e98-8638-4533-8f15-843ca13ce4eb/IxNRdvywa9.json'
+          className="lottieburst"
+          loop
+          autoplay
+        />
+      )}
+
+    <motion.div
+                    key={String(dark)}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1}}
+                    transition={{ duration: 0.5 }}
+    className={`${dark ? 'bg-[#1f1f1f]' : 'bg-stone-200'} ${dark ? 'text-stone-200' : 'text-stone-900'} h-screen`}>
 
 
-    {/*Timer*/}
+    {/*Nav*/}
+    <Nav/>
+
+
+
+    {/*Timer, Score, Round*/}
     <div className='flex justify-between items-center'>
+      <div>
       <motion.div
           key={score}
           initial={{ opacity: 0 }}
@@ -151,8 +187,8 @@ const App: React.FC = () => {
           transition={{ duration: 1 }}
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
-      className='px-5 py-5 font-bold text-xl'>
-        {score} / {endNumber}
+      className='px-5 font-bold text-sm italic'>
+        score: {score} / {endNumber}
       </motion.div>
       <div>
         <motion.div
@@ -162,31 +198,33 @@ const App: React.FC = () => {
                 transition={{ duration: 1 }}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
-        className='text-sm font-bold px-5 py-5'>
+        className='text-sm font-bold px-5 italic'>
           round: {currentRound} / {endNumber}
         </motion.div>
+      </div>
       </div>
       <motion.div 
         key={timer}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, y:5 }}
         transition={{ duration: 1 }}
-        className='flex justify-center items-center text-xl px-5 py-5  font-bold '>
-        <p>{timer}</p>
+        className='flex justify-center items-center text-sm px-5 py-5  font-bold italic '>
+        <p className='text-lg'>{timer}</p>
       </motion.div>
     </div>
 
 
       {/* Random hiragana value */}
       <div className='mt-20 flex justify-center items-center'>
+
         <motion.div
             key={randomIndex}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, y:5 }}
+            animate={{ opacity: 1, y:50 }}
             transition={{ duration: 1 }}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
-        className='flex justify-center items-center w-96 h-48 font-bold text-5xl'>
+        className='flex justify-center items-center w-96 h-48 font-bold text-5xl mb-10 italic'>
           <p>{values.hiragana}</p>
         </motion.div>
       </div>
@@ -200,8 +238,7 @@ const App: React.FC = () => {
         </div>
       </div>
 
-
-    </div>
+    </motion.div>
     </>
   );
 };
@@ -211,15 +248,15 @@ const App: React.FC = () => {
 
 // BUTTONS
 let Buttons1 = ({ values, randomRoumajis, check }: { values: any, randomRoumajis: any, check: any }) => {
-  let buttonStyle = `rounded border border-stone-700 w-full text-xl w-full py-2 mb-2 text-xs`;
+  let buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 text-xs px-5 italic`;
   return (
     <motion.div 
-    key={values}
+    key={randomRoumajis[0]}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, y:5 }}
     transition={{ duration: 1 }}
 
-    className='w-full mb-2'>
+    className='w-full mb-2 px-5 z-50'>
       <motion.button
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
@@ -240,15 +277,15 @@ let Buttons1 = ({ values, randomRoumajis, check }: { values: any, randomRoumajis
   );
 };
 let Buttons2 =  ({values, randomRoumajis, check}:{values: any, randomRoumajis: any, check:any}) => {
-  let buttonStyle = `rounded border border-stone-700 w-full text-xl w-full py-2 mb-2 text-xs`;
+  let buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 px-5 text-xs italic`;
   return(
     <motion.div
-    key={values}
+    key={values.roumaji}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, y:5 }}
     transition={{ duration: 1 }}
 
-    className='w-full'>
+    className='w-full px-5 z-50'>
 <motion.button
   whileHover={{ scale: 1.1 }}
   whileTap={{ scale: 0.9 }}
@@ -288,15 +325,15 @@ let Buttons2 =  ({values, randomRoumajis, check}:{values: any, randomRoumajis: a
   )
 }
 let Buttons3 =  ({values, randomRoumajis, check}:{values: any, randomRoumajis: any, check:any}) => {
-  let buttonStyle = `rounded border border-stone-700 w-full text-xl w-full py-2 mb-2 text-xs`;
+  let buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 px-5 text-xs italic`;
   return(
     <motion.div
-    key={values}
+    key={randomRoumajis[2]}
     initial={{ opacity: 0 }}
     animate={{ opacity: 1, y:5 }}
     transition={{ duration: 1 }}
 
-    className='w-full'>
+    className='w-full px-5 z-50'>
 <motion.button
   whileHover={{ scale: 1.1 }}
   whileTap={{ scale: 0.9 }}

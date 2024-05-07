@@ -105,6 +105,8 @@ const App: React.FC = () => {
     console.log(randomIndex)
   }, [correct]);
 
+
+  // CHECK ANSWERS
   useEffect(() => {
     if (currentRound === endNumber) {
       if (score === endNumber) {
@@ -121,9 +123,10 @@ const App: React.FC = () => {
     }
   }, [currentRound, score]);
 
+  //CHECK ANSWER 
   let checkIfCorrect = (roumaji: string) => {
     if (roumaji === values.roumaji) {
-      alert('correct');
+      //alert('correct');
       setCorrect(true);
       setScore((prevScore) => prevScore + 1);
       setTimer(10);
@@ -135,7 +138,7 @@ const App: React.FC = () => {
       const hiraganaSymbol = hiragana[newIndexHiragana].kana;
       setValues({ hiragana: hiraganaSymbol, roumaji: hiragana[newIndexHiragana].roumaji });
     } else {
-      alert('wrong');
+      //alert('wrong');
       setCorrect(false);
       setTimer(10);
   

@@ -109,13 +109,13 @@ const App: React.FC = () => {
 
   // CHECK WINNER
   useEffect(() => {
-    if (currentRound === endNumber && win === false) {
+    if (currentRound === endNumber) {
       alert('Game Over');
-      setScore(0);
+      setScore(0); // Reset the score
       setCurrentRound(0);
     } else if (score === endNumber && win === true) {
       alert('Congratulations');
-      setScore(0);
+      setScore(0); // Reset the score
       setCurrentRound(0);
       setWin(false); // Reset win condition
     } else if (win === true) {

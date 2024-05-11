@@ -5,13 +5,12 @@
 .lottieburst {
   position: absolute;
   left: 50%;
-  top: 42%;
+  top: 33%;
   transform: translate(-50%, -50%);
   z-index: 1;
   opacity: 15%;
 }
 
 body{
-    background-color: #1f1f1f;
-    height: 100vw;
+
 }

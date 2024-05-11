@@ -14,9 +14,28 @@ export const Nav = () => {
         animate={{ opacity: 1,}}
         transition={{ duration: 1 }}
         className={` ${dark ? 'text-stone-200' : 'text-stone-900'} flex justify-between`}>
-        <div className='px-5 font-bold italic text-md pt-5'>Hiragana 🌸</div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y:5 }}
+          transition={{ duration: 1 }}
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+         className='px-5 font-bold italic text-md pt-5 mb-5'>Hiragana 🌸</motion.div>
         <div className='flex px-5 pt-5'>
-        <div className="px-2 cursor-pointer" onClick={() => setDark(!dark)}>{dark ? <FiSun/> : <IoMoonOutline/>}</div>          <div><a href="https://github.com/mahls" className="cursor-pointer"><FaGithubAlt/></a></div>
+            <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, y:5 }}
+                      transition={{ duration: 1 }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}            
+            className="px-2 cursor-pointer" onClick={() => setDark(!dark)}>{dark ? <FiSun/> : <IoMoonOutline/>}</motion.div>     
+            <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, y:5 }}
+                      transition={{ duration: 1 }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+            ><a href="https://github.com/mahls" className="cursor-pointer"><FaGithubAlt/></a></motion.div>
         </div>
         </motion.div>
     )

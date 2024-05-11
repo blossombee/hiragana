@@ -1,14 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { hiragana } from '../hiragana';
-import {motion} from 'framer-motion'
 import { Nav } from './components/Nav';
 import { useAtom } from 'jotai'
 import { darkAtom } from '../store.js'
 import { Player } from '@lottiefiles/react-lottie-player';
+import { motion } from "framer-motion"
 import './index.css';
 
 
 const App: React.FC = () => {
+
+  // add analytics like average performance and performance metrics
 
   const [values, setValues] = useState({ hiragana: '', roumaji: '' });
   const [randomRoumajis, setRandomRoumajis] = useState<string[]>([]);
@@ -18,15 +20,28 @@ const App: React.FC = () => {
   const [score, setScore] = useState(0);
   const [currentRound, setCurrentRound] = useState(0);
   const [win, setWin] = useState(false);
+  const [showCorrectOrWrongEmoji, setShowCorrectOrWrongEmoji] = useState(true);
+  const [points, setPoints] = useState(0);
+  const [streak, setStreak] = useState(0);
+  const [playLottie, setPlayLottie] = useState(false);
 
   const endNumber = 20;
 
   const [dark] = useAtom(darkAtom)
-  const [playLottie, setPlayLottie] = useState(false);
+
   
   //const [gameStarted, setGameStarted] = useState(false);
   //const [gamePaused, setGamePaused] = useState(false);
 
+  let handleShowCorrectOrWrongEmoji = (trueOrFalse: boolean) => {
+      if(trueOrFalse == true){
+          setShowCorrectOrWrongEmoji(true)
+          return true
+      } else if(trueOrFalse == false) {
+          setShowCorrectOrWrongEmoji(false)
+          return false
+      } 
+  }
 
   useEffect(() => {
     setPlayLottie(true)
@@ -50,6 +65,7 @@ const App: React.FC = () => {
 */
 
 
+
   useEffect(() => {
     if (timer === 0) {
       const index = Math.floor(Math.random() * hiragana.length);
@@ -67,8 +83,10 @@ const App: React.FC = () => {
   
       const newIndex = Math.floor(Math.random() * 3);
       setRandomIndex(newIndex);
+
     }
   }, [timer]);
+
 
 
   useEffect(() => {
@@ -104,15 +122,16 @@ const App: React.FC = () => {
     // Set random index 
     const newIndex = Math.floor(Math.random() * 3);
     setRandomIndex(newIndex);
-    console.log(randomIndex)
   }, [correct]);
 
   // CHECK WINNER
   useEffect(() => {
     if (currentRound === endNumber) {
-      alert('Game Over');
+      alert(`Game over your score is ${score} / 20`);
       setScore(0); // Reset the score
       setCurrentRound(0);
+      setPoints(0); // Reset the points
+      setStreak(0); // Reset the streak
     } else if (score === endNumber && win === true) {
       alert('Congratulations');
       setScore(0); // Reset the score
@@ -128,11 +147,26 @@ const App: React.FC = () => {
   let checkIfCorrect = (roumaji: string) => {
     if (roumaji === values.roumaji) {
       // If the answer is correct
+      handleShowCorrectOrWrongEmoji(true);
       setCorrect(true);
       setScore((prevScore) => prevScore + 1);
       setTimer(10);
       const newIndex = Math.floor(Math.random() * 3);
       setRandomIndex(newIndex);
+      
+      setPoints(points + 50);
+
+      setStreak(streak + 1);
+      console.log(points)
+      if (streak == 1){
+        setPoints(points + 200);
+      } else if (streak == 2 ) {
+        setPoints(points + 250);
+      } else if (streak == 3) {
+        setPoints(points + 500)
+      } else if (streak == 4) {
+          setPoints(points + 1000)
+      }
       
       // Increment current round and check for win condition
       setCurrentRound((prevRound) => {
@@ -151,6 +185,8 @@ const App: React.FC = () => {
     } else {
       // If the answer is wrong
       setCorrect(false);
+      setStreak(0);
+      handleShowCorrectOrWrongEmoji(false);
       setTimer(10);
   
       const newIndex = Math.floor(Math.random() * 3);
@@ -218,6 +254,15 @@ const App: React.FC = () => {
           round: {currentRound} / {endNumber}
         </motion.div>
       </div>
+      <motion.div
+                      key={points}
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, y:5 }}
+                      transition={{ duration: 1 }}
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+      className='mx-5 italic font-bold text-sm pt-1'>points: {points}
+      </motion.div>
       </div>
       <motion.div 
         key={timer}
@@ -227,12 +272,23 @@ const App: React.FC = () => {
         className='flex justify-center items-center text-sm px-5 py-5  font-bold italic '>
         <p className='text-lg'>{timer}</p>
       </motion.div>
+
     </div>
 
+      {/*tick or cross*/ }
+      <motion.div 
+                  key={randomIndex}
+                  initial={{ opacity: 0.7 }}
+                  animate={{ opacity: 1, y:600 }}
+                  transition={{ duration: 20 }}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+      className='mx-5 flex'>
+        <div>{showCorrectOrWrongEmoji ? '✅' : '❌'}</div>
+      </motion.div>
 
       {/* Random hiragana value */}
-      <div className='mt-20 flex justify-center items-center'>
-
+      <div className='flex justify-center items-center'>
         <motion.div
             key={randomIndex}
             initial={{ opacity: 0 }}
@@ -258,8 +314,6 @@ const App: React.FC = () => {
     </>
   );
 };
-
-// GITHUB AND NIGHT MODE
 
 
 // BUTTONS

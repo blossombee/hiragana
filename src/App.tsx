@@ -21,12 +21,8 @@ const App: React.FC = () => {
   const [currentRound, setCurrentRound] = useState(0);
   const [win, setWin] = useState(false);
   const [showCorrectOrWrongEmoji, setShowCorrectOrWrongEmoji] = useState(true);
-  const [points, setPoints] = useState(0);
-  const [streak, setStreak] = useState(0);
   const [playLottie, setPlayLottie] = useState(false);
-
   const endNumber = 20;
-
   const [dark] = useAtom(darkAtom)
 
   
@@ -126,22 +122,29 @@ const App: React.FC = () => {
 
   // CHECK WINNER
   useEffect(() => {
-    if (currentRound === endNumber) {
+    // Reset logic only on actual game over
+    if (currentRound === endNumber && !win) {
       alert(`Game over your score is ${score} / 20`);
       setScore(0); // Reset the score
       setCurrentRound(0);
-      setPoints(0); // Reset the points
-      setStreak(0); // Reset the streak
+
     } else if (score === endNumber && win === true) {
       alert('Congratulations');
-      setScore(0); // Reset the score
+      setScore(0); // Reset the score (optional, might want to keep score for wins)
       setCurrentRound(0);
       setWin(false); // Reset win condition
+
     } else if (win === true) {
       setCurrentRound(0); // Reset current round if win condition is met
       setWin(false); // Reset win condition
     }
+  
+    // Cleanup function (optional, can be removed)
+    return () => {
+      // This cleanup won't affect score reset behavior anymore
+    };
   }, [currentRound, score, endNumber, win]);
+  
 
   //CHECK ANSWER 
   let checkIfCorrect = (roumaji: string) => {
@@ -154,19 +157,7 @@ const App: React.FC = () => {
       const newIndex = Math.floor(Math.random() * 3);
       setRandomIndex(newIndex);
       
-      setPoints(points + 50);
-
-      setStreak(streak + 1);
-      console.log(points)
-      if (streak == 1){
-        setPoints(points + 200);
-      } else if (streak == 2 ) {
-        setPoints(points + 250);
-      } else if (streak == 3) {
-        setPoints(points + 500)
-      } else if (streak == 4) {
-          setPoints(points + 1000)
-      }
+      
       
       // Increment current round and check for win condition
       setCurrentRound((prevRound) => {
@@ -185,7 +176,7 @@ const App: React.FC = () => {
     } else {
       // If the answer is wrong
       setCorrect(false);
-      setStreak(0);
+
       handleShowCorrectOrWrongEmoji(false);
       setTimer(10);
   
@@ -224,7 +215,7 @@ const App: React.FC = () => {
     className={`${dark ? 'bg-[#1f1f1f]' : 'bg-stone-200'} ${dark ? 'text-stone-200' : 'text-stone-900'} h-screen scroll-auto`}>
 
 
-    {/*Nav*/}
+    {/*Navbar*/}
     <Nav/>
 
 
@@ -254,15 +245,7 @@ const App: React.FC = () => {
           round: {currentRound} / {endNumber}
         </motion.div>
       </div>
-      <motion.div
-                      key={points}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1, y:5 }}
-                      transition={{ duration: 1 }}
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-      className='mx-5 italic font-bold text-sm pt-1'>points: {points}
-      </motion.div>
+
       </div>
       <motion.div 
         key={timer}

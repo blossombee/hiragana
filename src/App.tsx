@@ -29,7 +29,7 @@ const App: React.FC = () => {
   //const [gameStarted, setGameStarted] = useState(false);
   //const [gamePaused, setGamePaused] = useState(false);
 
-  let handleShowCorrectOrWrongEmoji = (trueOrFalse: boolean) => {
+  const handleShowCorrectOrWrongEmoji = (trueOrFalse: boolean) => {
       if(trueOrFalse == true){
           setShowCorrectOrWrongEmoji(true)
           return true
@@ -81,7 +81,7 @@ const App: React.FC = () => {
       setRandomIndex(newIndex);
 
     }
-  }, [timer]);
+  }, [timer, currentRound]);
 
 
 
@@ -147,7 +147,7 @@ const App: React.FC = () => {
   
 
   //CHECK ANSWER 
-  let checkIfCorrect = (roumaji: string) => {
+  const checkIfCorrect = (roumaji: string) => {
     if (roumaji === values.roumaji) {
       // If the answer is correct
       handleShowCorrectOrWrongEmoji(true);
@@ -194,7 +194,6 @@ const App: React.FC = () => {
   }
 
   // MAIN APP JSX
-
   return (
     <>
 
@@ -212,7 +211,7 @@ const App: React.FC = () => {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1}}
                     transition={{ duration: 0.5 }}
-    className={`${dark ? 'bg-[#1f1f1f]' : 'bg-stone-200'} ${dark ? 'text-stone-200' : 'text-stone-900'} h-screen scroll-auto`}>
+    className={`${dark ? 'bg-[#1f1f1f]' : 'bg-stone-200'} ${dark ? 'text-stone-200' : 'text-stone-900'} h-screen scroll-auto pb-20`}>
 
 
     {/*Navbar*/}
@@ -299,9 +298,15 @@ const App: React.FC = () => {
 };
 
 
+interface ButtonProps {
+  values: { hiragana: string; roumaji: string };
+  randomRoumajis: string[];
+  check: (roumaji: string) => void;
+}
+
 // BUTTONS
-let Buttons1 = ({ values, randomRoumajis, check }: { values: any, randomRoumajis: any, check: any }) => {
-  let buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 text-xs px-5 italic`;
+const Buttons1 = ({ values, randomRoumajis, check }: ButtonProps) => {
+  const buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 text-xs px-5 italic`;
   return (
     <motion.div 
     key={randomRoumajis[0]}
@@ -329,8 +334,9 @@ let Buttons1 = ({ values, randomRoumajis, check }: { values: any, randomRoumajis
     </motion.div>
   );
 };
-let Buttons2 =  ({values, randomRoumajis, check}:{values: any, randomRoumajis: any, check:any}) => {
-  let buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 px-5 text-xs italic`;
+
+const Buttons2 =  ({values, randomRoumajis, check}: ButtonProps) => {
+  const buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 px-5 text-xs italic`;
   return(
     <motion.div
     key={values.roumaji}
@@ -377,8 +383,9 @@ let Buttons2 =  ({values, randomRoumajis, check}:{values: any, randomRoumajis: a
     </motion.div>
   )
 }
-let Buttons3 =  ({values, randomRoumajis, check}:{values: any, randomRoumajis: any, check:any}) => {
-  let buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 px-5 text-xs italic`;
+
+const Buttons3 =  ({values, randomRoumajis, check}: ButtonProps) => {
+  const buttonStyle = `rounded border border-stone-500 w-full text-xl w-full py-2 mb-2 px-5 text-xs italic`;
   return(
     <motion.div
     key={randomRoumajis[2]}

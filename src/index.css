@@ -5,7 +5,7 @@
 .lottieburst {
   position: absolute;
   left: 50%;
-  top: 36%;
+  top: 23%;
   transform: translate(-50%, -50%);
   z-index: 1;
   opacity: 15%;
@@ -13,4 +13,22 @@
 
 body{
 
+}
+
+@media (max-width: 768px) {
+  .lottieburst {
+    top: 65%;
+  }
+}
+
+@media (max-width: 900px) {
+  .lottieburst {
+    top: 50%;
+  }
+}
+
+@media (max-width: 1200px) {
+  .lottieburst {
+    top: 38%;
+  }
 }

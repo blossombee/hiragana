@@ -1,4 +1,4 @@
-# 🌸 Hiragana Practice Tool
+# Hiragana Practice Tool
 
 A lightweight web-based Hiragana quiz app to help users practice and memorize Japanese Hiragana characters.
 
